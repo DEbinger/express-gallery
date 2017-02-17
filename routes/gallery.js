@@ -24,6 +24,10 @@ router.post('/', (req, res) => {
   .catch(error => console.error(error));
 });
 
+router.get('/new', (req, res) => {
+  res.render('new');
+});
+
 router.get('/:id', (req, res) => {
   Photo.findById(`${req.params.id}`)
   .then(function (photos) {
@@ -52,6 +56,13 @@ router.put('/:id', (req, res) => {
   });
 });
 
-
+router.delete('/:id', (req, res) => {
+  Photo.destroy( {
+    where : {id: `${req.params.id}`}}
+    )
+    .then(function() {
+    res.redirect(303, `/gallery`);
+  });
+});
 
 module.exports = router;
