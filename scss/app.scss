@@ -1,0 +1,88 @@
+@import "partials/reset";
+@import "partials/media_query";
+@import "partials/variables";
+@import "partials/mixins";
+
+body {
+  font-family: 'Arial', sans-serif;
+  font-color: grey;
+  background-color: white;
+}
+
+.header_container{
+  display: flex;
+  flex-flow: row wrap;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  @include respond-to(large){
+    border-top: dotted 1px lightgrey;
+    align-items: center;
+  }
+}
+
+.header_right{
+  display: none;
+
+  @include respond-to(large){
+    display: initial;
+    width: 28%;
+    border-left: solid 1px #ccc;
+    border-size: border-box;
+    padding-left: 1rem;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    color: #68636C;
+  }
+}
+
+.header_left{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+  font-size: 10vw;
+  font-weight: bold;
+  color: #68636A;
+
+  @include respond-to(large){
+    width: calc(70% - 2rem);
+    flex-grow: 1;
+    margin-right: 2rem;
+  }
+
+}
+
+.container {
+  text-align: center;
+  margin: auto;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  background-color: white;
+  color: grey;
+}
+
+.imageBox {
+  padding-bottom: 1rem;
+}
+
+.description {
+  padding-bottom: 1rem;
+  text-align: center;
+  border-size: border-box;
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  color: #68636C;
+}
+
+.author {
+  padding-bottom: 1rem;
+  border-size: border-box;
+  font-family: 'Arial', sans-serif;
+  font-size: 1rem;
+  color: #68636C;
+}
