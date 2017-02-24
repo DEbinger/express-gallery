@@ -91,28 +91,56 @@ body {
       margin-right: 2rem; } }
 
 .container {
+  justify-content: space-around;
   text-align: center;
   margin: auto;
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;
   background-color: white;
-  color: grey; }
+  color: grey;
+  width: 95%; }
+
+.postBox {
+  width: 30%;
+  border-bottom: 1px solid grey; }
+  .postBox div {
+    width: 50%; }
+
+.postBox:first-child {
+  height: 50%;
+  width: 99%;
+  padding-bottom: 1rem; }
+  .postBox:first-child div {
+    display: none; }
 
 .imageBox {
-  padding-bottom: 1rem; }
+  width: 100%;
+  height: 30rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem; }
 
 .description {
+  word-wrap: break-word;
+  text-align: left;
+  align-content: center;
   padding-bottom: 1rem;
-  text-align: center;
-  border-size: border-box;
   font-family: 'Arial', sans-serif;
   font-size: 1rem;
   color: #68636C; }
 
+.authorLarge {
+  display: none; }
+
 .author {
+  text-align: left; }
+
+.link {
+  word-wrap: break-word;
+  text-align: left;
+  align-content: space-between;
   padding-bottom: 1rem;
-  border-size: border-box;
   font-family: 'Arial', sans-serif;
   font-size: 1rem;
-  color: #68636C; }
+  color: #68636C;
+  text-overflow: ellipsis;
+  overflow: hidden; }

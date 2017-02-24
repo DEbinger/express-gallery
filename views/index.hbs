@@ -1,8 +1,13 @@
-  {{#each photos}}
-  <div><a href='/gallery/{{id}}'><img class="imageBox" src="{{link}}" alt=""></a>
 
-  <div class="author">Author : {{author}}</div>
+    {{#each photos}}
+    <div class="postBox"><a href='/gallery/{{id}}'><img class="imageBox" src="{{link}}" alt=""></a>
 
-  <div class="description">Description : {{description}}</div>
-  </div>
-  {{/each}}
+
+    <div class="authorLarge">Author: {{author}}</div>
+
+    <div class="description">{{description}}</div>
+
+    <div class="link">{{link}}</div>
+
+    </div>
+    {{/each}}

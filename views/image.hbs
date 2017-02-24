@@ -1,13 +1,15 @@
   <div>
-  <h3 class="author">{{photos.author}}</h3><br>
+  <h3 class="author">{{photos.author}} - {{photos.link}}</h3><br>
   <img class="imageBox" src="{{photos.link}}" alt="">
 
   <form action="/gallery/{{photos.id}}?_method=DELETE" method="POST">
   <h4 class="description">{{photos.description}}</h4>
+  <div class="link">Link: {{photos.link}}</div>
     <input type="submit" value="Delete">
   </form>
   <form action="/gallery/{{photos.id}}/edit" method="GET">
     <input type="submit" value="Edit">
   </form>
+
 
   </div>

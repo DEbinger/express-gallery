@@ -21,10 +21,11 @@ app.use(express.static('public'));
 app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(session({
-//   store: new RedisStore(options),
-//   secret: CONFIG.SESSION_SECRET
-// }));
+
+app.use(session({
+  store: new RedisStore(),
+  secret: 'CONFIG.SESSION_SECRET'
+}));
 
 
 const hbs = handlebars.create({
@@ -45,26 +46,17 @@ app.set('view engine', 'hbs');
 //   return ( username === USERNAME && password === PASSWORD );
 // };
 
-// passport.use(new LocalStrategy(
-//   function (username, password, done) {
-//     console.log('username, password: ', username, password);
-//     // check if the user is authenticated or not
-//     if( authenticate(username, password) ) {
-//       console.log('passed');
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    console.log('username, password: ', username, password);
+    User.findOne({ username: username })
+    .then(function (user) {
+      return done(null, user);
+    });
+  return done(null, false, { message: 'Incorrect username.'});
+  }
 
-//       // User data from the DB
-//       const user = {
-//         name: 'Joe',
-//         role: 'admin',
-//         favColor: 'green',
-//         isAdmin: true,
-//       };
-
-//       return done(null, user); // no error, and data = user
-//     }
-//     return done(null, false); // error and authenticted = false
-//   }
-// ));
+));
 
 passport.serializeUser(function(user, done) {
   return done(null, user);
@@ -83,6 +75,15 @@ app.post('/login', passport.authenticate('local', {
   failureRedirect: '/login'
 }));
 
+app.get('/createuser', (req, res) => {
+  res.render('./createuser.hbs');
+});
+
+app.post('/createuser', (req, res) => {
+  // User
+  res.redirect('/login');
+});
+
 app.get('/secret', (req, res) => {
   res.send('this is my secret page');
 });
@@ -91,14 +92,14 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-// function isAuthenticated(req, res, next) {
-//   if (req.isAuthenticated()) {
-//     next();
-//   }else{
-//     console.log('NOPE');
-//     res.redirect('/login');
-//   }
-// }
+function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  }else{
+    console.log('NOPE');
+    res.redirect('/login');
+  }
+}
 
 app.use('/gallery', gallery);
 
