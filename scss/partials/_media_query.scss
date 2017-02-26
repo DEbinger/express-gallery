@@ -1,20 +1,30 @@
-@mixin respond-to($media) {
-  @if $media == handheld {
-    @media only screen and (max-device-width: 460px) and (orientation: portrait),
-      only screen and (min-device-width: 1024px) and (max-width: 458px) { @content; }
+// @mixin respond-to($media) {
+//   @if $media == handheld {
+//     @media only screen and (max-device-width: 460px) and (orientation: portrait),
+//       only screen and (min-device-width: 1024px) and (max-width: 969px) { @content; }
+//   }
+//   @else if $media == small-window {
+//     @media only screen and (min-device-width: 480px) and (max-width: 670px) { @content; }
+//   }
+//   @else if $media == tablet {
+//     @media only screen and (min-device-width: 459px) and (max-device-width: 801px),
+//       only screen and (min-device-width: 1024px) and (min-width: 459px) { @content; }
+//   }
+//   @else if $media == medium-window {
+//     @media only screen and (min-device-width: 1024px) and (min-width: 460px) { @content; }
+//   }
+//   @else if $media == large {
+//     @media only screen and (min-device-width: 1024px) and (min-width: 970px) { @content; }
+//   }
+// }
+
+@mixin respond-to($media){
+  @if $media == small {
+    @media only screen and (max-device-width: 460px),
+     only screen and (min-device-width: 1024px) and (max-width: 970px) {@content;}
   }
-  @else if $media == small-window {
-    @media only screen and (min-device-width: 1024px) and (max-width: 810px) { @content; }
-  }
-  @else if $media == tablet {
-    @media only screen and (min-device-width: 459px) and (max-device-width: 801px),
-      only screen and (min-device-width: 1024px) and (min-width: 459px) { @content; }
-  }
-  @else if $media == medium-window {
-    @media only screen and (min-device-width: 1024px) and (min-width: 460px) { @content; }
-  }
-  @else if $media == large {
-    @media only screen and (min-device-width: 1024px) and (min-width: 970px) { @content; }
+  @else if $media == large{
+    @media only screen and (min-device-width: 1024px) and (min-width: 970px) {@content;}
   }
 }
 

@@ -81,33 +81,40 @@ passport.deserializeUser(function(user, done) {
   return done(null, user);
 });
 
-app.get('/login', (req, res) => {
+app.get('/gallery/login', (req, res) => {
   res.render('./login.hbs');
 });
 
-// app.get('/logout', logout());
-
-app.post('/login', passport.authenticate('local', {
+app.post('/gallery/login', passport.authenticate('local', {
   successRedirect: '/gallery',
-  failureRedirect: '/login'
+  failureRedirect: '/gallery/newuser'
 }));
 
-app.post('/user/new', (req, res) => {
+app.post('/gallery/newuser', (req, res) => {
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function (err,hash){
     User.create({
         user: req.body.username,
         password: hash
     }).then( _ => {
-      res.redirect(303,'/login');
+      res.redirect(303,'/gallery/login');
     });
     });
   });
 });
 
-app.get('/user/new', (req, res) => {
+app.get('/gallery/newuser', (req, res) => {
   res.render('./createuser.hbs');
 });
+
+function isAuthApproved(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  }else{
+    console.log('NOPE');
+    res.redirect('/gallery/login');
+  }
+}
 
 app.get('/secret', isAuthApproved,(req, res) => {
   res.send('this is my secret page');
@@ -117,17 +124,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-function isAuthApproved(req, res, next) {
-  if (req.isAuthenticated()) {
-    next();
-  }else{
-    console.log('NOPE');
-    res.redirect('/login');
-  }
-}
-
 app.use('/gallery', gallery);
-
 
 app.listen(PORT, function() {
   console.log('Server started on port 3000');

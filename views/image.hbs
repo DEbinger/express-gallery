@@ -5,11 +5,11 @@
   <form action="/gallery/{{photos.id}}?_method=DELETE" method="POST">
   <h4 class="description">{{photos.description}}</h4>
   <div class="link">Link: {{photos.link}}</div>
-    <input type="submit" value="Delete">
+  <div class="button">
+   <input type="submit" value="Delete">
+  </div>
   </form>
   <form action="/gallery/{{photos.id}}/edit" method="GET">
     <input type="submit" value="Edit">
   </form>
-
-
   </div>

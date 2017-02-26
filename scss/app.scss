@@ -36,6 +36,10 @@ body {
     font-size: 1rem;
     color: #68636C;
   }
+  @include respond-to(small-window)
+  div {
+    display: none;
+  }
 }
 
 .header_left{
@@ -68,18 +72,24 @@ body {
 }
 
 .postBox {
-
+  @include respond-to(small-window){
+  width: 85%;
+}
+  @include respond-to(large){
   width: 30%;
   border-bottom: 1px solid grey;
   div {
     width: 50%;
   }
 }
+}
 
 .postBox:first-child {
   height: 50%;
   width: 99%;
   padding-bottom: 1rem;
+  @include respond-to(small-window)
+  width: 100%;
   div {
     display: none;
   }
