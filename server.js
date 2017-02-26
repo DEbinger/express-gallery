@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const bp = require('body-parser');
 const handlebars = require('express-handlebars');
+// const logout = require('express-passport-logout');
 const db = require('./models');
 const gallery = require('./routes/gallery');
 const PORT = process.env.PORT || 3000;
@@ -14,7 +15,9 @@ const session = require('express-session');
 const path = require('path');
 const CONFIG = require('./config/config.json');
 const RedisStore = require('connect-redis')(session);
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const User = db.User;
 
 app.use(bp.urlencoded({extended: true}));
 app.use(express.static('public'));
@@ -27,7 +30,6 @@ app.use(session({
   secret: 'CONFIG.SESSION_SECRET'
 }));
 
-
 const hbs = handlebars.create({
   extname: '.hbs',
   defaultLayout: 'app'
@@ -36,27 +38,36 @@ const hbs = handlebars.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
-
-// const authenticate = (username, password) => {
-//   // get user data from the DB
-//   const { USERNAME } = CONFIG;
-//   const { PASSWORD } = CONFIG;
-
-//   // check if the user is authenticated or not
-//   return ( username === USERNAME && password === PASSWORD );
-// };
-
 passport.use(new LocalStrategy(
   function (username, password, done) {
-    console.log('username, password: ', username, password);
-    User.findOne({ username: username })
-    .then(function (user) {
-      return done(null, user);
-    });
-  return done(null, false, { message: 'Incorrect username.'});
-  }
+    console.log('is working user', username, password);
+    User.findOne({
+      where: {
+        user: username
+      }
+    }).then ( user => {
+    console.log('this is the user and username', user.password);
+      if (user === null) {
+        console.log('user failed');
+        return done(null, false, {message: 'bad username'});
 
-));
+    }else {
+
+      bcrypt.compare(password, user.password).then(res => {
+        console.log('This is now the pw and user.pw',password, user.password);
+        if (res) {
+          return done(null, user);
+        }else {
+          return done(null, false);
+        }
+      });
+
+    }
+  }).catch(err => {
+    console.log('error: ', err);
+  });
+})
+);
 
 passport.serializeUser(function(user, done) {
   return done(null, user);
@@ -70,21 +81,31 @@ app.get('/login', (req, res) => {
   res.render('./login.hbs');
 });
 
+// app.get('/logout', logout());
+
 app.post('/login', passport.authenticate('local', {
-  successRedirect: '/secret',
+  successRedirect: '/gallery',
   failureRedirect: '/login'
 }));
 
-app.get('/createuser', (req, res) => {
+app.post('/user/new', (req, res) => {
+  bcrypt.genSalt(saltRounds, function(err, salt) {
+    bcrypt.hash(req.body.password, salt, function (err,hash){
+    User.create({
+        user: req.body.username,
+        password: hash
+    }).then( _ => {
+      res.redirect(303,'/login');
+    });
+    });
+  });
+});
+
+app.get('/user/new', (req, res) => {
   res.render('./createuser.hbs');
 });
 
-app.post('/createuser', (req, res) => {
-  // User
-  res.redirect('/login');
-});
-
-app.get('/secret', (req, res) => {
+app.get('/secret', isAuthApproved,(req, res) => {
   res.send('this is my secret page');
 });
 
@@ -92,7 +113,7 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-function isAuthenticated(req, res, next) {
+function isAuthApproved(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   }else{

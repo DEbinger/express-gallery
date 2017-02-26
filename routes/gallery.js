@@ -12,6 +12,16 @@ router.get('/', (req, res) => {
   })
 ;});
 
+let isAuth = (function isAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    console.log('way to go dude');
+    next();
+  }else{
+    console.log('NOPE');
+    res.redirect(303, '/login');
+  }
+});
+
 router.post('/new', (req, res) => {
   Photo.create({
     author: req.body.author,
@@ -36,27 +46,29 @@ router.get('/:id', (req, res) => {
   .catch(error => console.error(error));
 });
 
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', isAuth,(req, res) => {
+  console.log('This is isAuthenticated',req.isAuthenticated);
   Photo.findById(`${req.params.id}`)
   .then(function (photos) {
     res.render('edit', {photos: photos});
   });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', isAuth,(req, res) => {
   Photo.update({
     author: req.body.author,
     link: req.body.link,
     description: req.body.description
   },
-  {where: {id: `${req.params.id}`}}
+  {where: {id: req.params.id}}
   )
   .then(function() {
     res.redirect(303, `/gallery/${req.params.id}`);
   });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', isAuth,(req, res) => {
+  console.log('This test is', req.isAuthenticated());
   Photo.destroy( {
     where : {id: `${req.params.id}`}}
     )

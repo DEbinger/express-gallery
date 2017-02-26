@@ -86,10 +86,12 @@ body {
 }
 
 .imageBox {
+  object-fit: fill;
   width: 100%;
   height: 30rem;
   padding-bottom: 1rem;
   padding-top: 1rem;
+
 }
 
 .description {
