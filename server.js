@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const bp = require('body-parser');
 const handlebars = require('express-handlebars');
-// const logout = require('express-passport-logout');
+const logout = require('express-passport-logout');
 const db = require('./models');
 const gallery = require('./routes/gallery');
 const PORT = process.env.PORT || 3000;
@@ -22,13 +22,16 @@ const User = db.User;
 app.use(bp.urlencoded({extended: true}));
 app.use(express.static('public'));
 app.use(methodOverride('_method'));
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(session({
   store: new RedisStore(),
   secret: 'CONFIG.SESSION_SECRET'
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 const hbs = handlebars.create({
   extname: '.hbs',
@@ -40,13 +43,11 @@ app.set('view engine', 'hbs');
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
-    console.log('is working user', username, password);
     User.findOne({
       where: {
         user: username
       }
     }).then ( user => {
-    console.log('this is the user and username', user.password);
       if (user === null) {
         console.log('user failed');
         return done(null, false, {message: 'bad username'});
@@ -70,11 +71,14 @@ passport.use(new LocalStrategy(
 );
 
 passport.serializeUser(function(user, done) {
-  return done(null, user);
+  return done(null, {
+    id:user.id,
+    username:user.username
+  });
 });
 
 passport.deserializeUser(function(user, done) {
-  return done(err, user);
+  return done(null, user);
 });
 
 app.get('/login', (req, res) => {
@@ -123,6 +127,7 @@ function isAuthApproved(req, res, next) {
 }
 
 app.use('/gallery', gallery);
+
 
 app.listen(PORT, function() {
   console.log('Server started on port 3000');
