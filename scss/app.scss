@@ -74,6 +74,7 @@ body {
 .postBox {
   @include respond-to(small-window){
   width: 85%;
+  height: 25rem;
 }
   @include respond-to(large){
   width: 30%;
@@ -98,10 +99,12 @@ body {
 .imageBox {
   object-fit: fill;
   width: 100%;
-  height: 30rem;
+  height: 20rem;
   padding-bottom: 1rem;
-  padding-top: 1rem;
-
+  padding-top: 1rem {
+  @include respond-to(small-window)
+  width: 100%;
+  }
 }
 
 .description {
@@ -124,13 +127,12 @@ body {
 }
 
 .link {
-  word-wrap: break-word;
+  text-overflow: ellipsis;
+  overflow: hidden;
   text-align: left;
   align-content: space-between;
   padding-bottom: 1rem;
   font-family: 'Arial', sans-serif;
   font-size: 1rem;
   color: #68636C;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
