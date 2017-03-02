@@ -6,8 +6,10 @@ const db = require('../models');
 let Photo = db.Photo;
 
 router.get('/', (req, res) => {
+  console.log('get test now');
   Photo.findAll({order: "id"})
   .then(function (photos) {
+    console.log('this is inside the .then');
     res.render('index', {photos: photos});
   })
 ;});
@@ -42,6 +44,7 @@ router.get('/:id/edit', isAuth,(req, res) => {
     res.render('edit', {photos: photos});
   });
 });
+
 router.get('/:id', (req, res) => {
   Photo.findById(`${req.params.id}`)
   .then(function (photos) {

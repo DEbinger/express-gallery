@@ -81,30 +81,31 @@ passport.deserializeUser(function(user, done) {
   return done(null, user);
 });
 
-app.get('/gallery/login', (req, res) => {
-  res.render('./login.hbs');
+app.get('/login', (req, res) => {
+  res.render('login');
 });
 
-app.post('/gallery/login', passport.authenticate('local', {
+app.post('/login', passport.authenticate('local', {
   successRedirect: '/gallery',
-  failureRedirect: '/gallery/newuser'
+  failureRedirect: '/newuser'
 }));
 
-app.post('/gallery/newuser', (req, res) => {
+app.post('/newuser', (req, res) => {
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(req.body.password, salt, function (err,hash){
     User.create({
         user: req.body.username,
         password: hash
     }).then( _ => {
-      res.redirect(303,'/gallery/login');
+      res.redirect(303,'/login');
     });
     });
   });
 });
 
-app.get('/gallery/newuser', (req, res) => {
-  res.render('./createuser.hbs');
+app.get('/newuser', (req, res) => {
+  console.log('test of nbewuser');
+  res.render('createuser.hbs');
 });
 
 function isAuthApproved(req, res, next) {
@@ -112,7 +113,7 @@ function isAuthApproved(req, res, next) {
     next();
   }else{
     console.log('NOPE');
-    res.redirect('/gallery/login');
+    res.redirect('./gallery/login');
   }
 }
 
