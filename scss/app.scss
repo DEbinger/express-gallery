@@ -7,6 +7,9 @@ body {
   font-family: 'Arial', sans-serif;
   font-color: grey;
   background-color: white;
+  margin: auto;
+  padding-left: 5rem;
+  padding-right: 5rem;
 }
 
 .header_container{
@@ -16,6 +19,8 @@ body {
   padding-bottom: 1rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  margin-right: 4rem;
+  margin-left: 4rem;
 
   @include respond-to(large){
     border-top: dotted 1px lightgrey;
@@ -48,7 +53,7 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Arial', sans-serif;
-  font-size: 10vw;
+  font-size: 7vw;
   font-weight: bold;
   color: #68636A;
 
@@ -68,17 +73,19 @@ body {
   flex-flow: row wrap;
   background-color: white;
   color: grey;
-  width: 95%;
+  width: 90%;
 }
 
 .postBox {
   @include respond-to(small-window){
-  width: 85%;
+  width: 50%;
   height: 25rem;
 }
   @include respond-to(large){
-  width: 30%;
+  width: 31.5%;
   border-bottom: 1px solid grey;
+  padding-right: .5rem;
+  padding-left: .5rem;
   div {
     width: 50%;
   }
@@ -97,7 +104,8 @@ body {
 }
 
 .imageBox {
-  object-fit: fill;
+  align-content: space-between;
+  object-fit: cover;
   width: 100%;
   height: 20rem;
   padding-bottom: 1rem;
