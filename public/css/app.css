@@ -49,7 +49,6 @@ body {
   font-family: 'Arial', sans-serif;
   font-color: grey;
   background-color: white;
-  margin: auto;
   padding-left: 5rem;
   padding-right: 5rem; }
 
@@ -156,4 +155,36 @@ body {
   padding-bottom: 1rem;
   font-family: 'Arial', sans-serif;
   font-size: 1rem;
-  color: #68636C; }
+  color: #68636C;
+    color-display: none; }
+
+.maincontainer {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  height: 100%; }
+
+.photo-single {
+  flex: 1 0 70%;
+  width: 70%;
+  padding-right: 2rem; }
+
+#bigpicture {
+  width: 100%; }
+
+.right-side-box {
+  flex: 0 0 25%; }
+
+.photos-group {
+  height: 12rem;
+  width: 100%;
+  margin-bottom: 1rem; }
+
+.photo {
+  width: 100%;
+  height: 100%; }
+
+.photoLink-single {
+  /*   // display: flex;
+  width: 100%;
+  height: 13rem; */ }

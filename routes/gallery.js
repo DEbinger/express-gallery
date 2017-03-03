@@ -47,8 +47,11 @@ router.get('/:id/edit', isAuth,(req, res) => {
 
 router.get('/:id', (req, res) => {
   Photo.findById(`${req.params.id}`)
-  .then(function (photos) {
-    res.render('image', {photos: photos});
+  .then(function (photo){
+     Photo.findAll({order: "id", limit:3})
+      .then(function (photos) {
+        res.render('image', {photo : photo, photos : photos});
+      });
   })
   .catch(error => console.error(error));
 });

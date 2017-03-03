@@ -1,15 +1,32 @@
-  <div>
-  <h3 class="author">{{photos.author}} - {{photos.link}}</h3><br>
-  <img class="imageBox" src="{{photos.link}}" alt="">
-
-  <form action="/gallery/{{photos.id}}?_method=DELETE" method="POST">
-  <h4 class="description">{{photos.description}}</h4>
-  <div class="link">Link: {{photos.link}}</div>
-  <div class="button">
-   <input type="submit" value="Delete">
-  </div><br>
-  </form>
-  <form action="/gallery/{{photos.id}}/edit" method="GET">
-    <input type="submit" value="Edit">
-  </form>
+<div class="maincontainer">
+  <div class="photo-single">
+    <img id="bigpicture" src="{{photo.link}}" alt="">
+    <h3 class="author">
+      {{photo.author}} - {{photo.link}}
+    </h3>
+      <div class="form-btns">
+        <form action="/gallery/{{photo.id}}/edit" method="GET">
+          <input type="submit" value="Edit">
+        </form>
+        <form action="/gallery/{{photo.id}}?_method=DELETE" method="POST">
+          <input type="submit" value="Delete">
+        </form>
+      </div>
   </div>
+  {{!--   <h4 class="description">{{photo.description}}</h4>
+  <div class="link">Link: {{photo.link}}</div>
+  --}}
+  <div class="right-side-box" id="desktop-detail">
+    {{#each photos}}
+      <div class="photos-group">
+        <a href="/gallery/{{id}}" class="photoLink-single">
+          <img src="{{link}}" class="photo">
+        </a>
+     {{!--    <div class="authors-descriptions-sidebar">
+          <p>{{author}}-</p>
+          <p>{{link}}</p>
+        </div> --}}
+      </div>
+    {{/each}}
+  </div>
+</div>
